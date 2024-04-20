@@ -54,6 +54,12 @@
           "naziv": "Ploča ugradbena Gorenje HCE691BSC",
           "dobavljač": "Bijela tehnika",
           "status": "ISPORUČENO"
+        },
+        {
+          "id": 4,
+          "naziv": "Perilica posuđa ugradbena Gorenje HHA27200L",
+          "dobavljač": "Links",
+          "status": "NARUČENO"
         }
       ]
     },

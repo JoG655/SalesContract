@@ -1,24 +1,6 @@
 import axios from "axios";
 import { convertContractId } from "../utils/convertContractId";
-
-type ContractType = {
-  id: string;
-  kupac: string;
-  broj_ugovora: string;
-  datum_akontacije: string;
-  rok_isporuke: string;
-  status: "KREIRANO" | "NARUČENO" | "ISPORUČENO";
-};
-
-type ArticleType = {
-  id: string;
-  items: {
-    id: string;
-    naziv: string;
-    dobavljač: string;
-    status: "KREIRANO" | "NARUČENO" | "ISPORUČENO";
-  }[];
-};
+import { type ArticleType, type ContractType } from "../types/general";
 
 const BASE_URL = "http://localhost:7000";
 const TIMEOUT = 2500;

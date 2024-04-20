@@ -22,7 +22,7 @@ function Root() {
           Ugovor
         </NavLink>
       </nav>
-      <main className="mt-6 flex flex-grow flex-col items-center">
+      <main className="mx-auto flex min-h-dvh max-w-5xl flex-grow animate-fadeIn flex-col items-center scroll-smooth px-4 py-6">
         <Outlet />
       </main>
       <ReactQueryDevtools buttonPosition="bottom-left" />

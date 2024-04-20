@@ -7,6 +7,7 @@ import {
   contractQueryOptions,
 } from "../../services/queryOptions";
 import { convertContractId } from "../../utils/convertContractId";
+import { ListItem } from "../../components/ListItem";
 
 export const Route = createFileRoute("/contract/$contractId")({
   /* loader:
@@ -41,78 +42,48 @@ function Contract() {
 
   const contractArticlesData = contractRes.data;
 
-  return contractBaseData ? (
-    <div className="space-y-2">
-      <p>{contractBaseData.kupac}</p>
-      <p>{contractBaseData.broj_ugovora}</p>
-      <p>{contractBaseData.datum_akontacije}</p>
-      <p>{contractBaseData.rok_isporuke}</p>
-      <p>{contractBaseData.status}</p>
-      <p>{JSON.stringify(contractArticlesData)}</p>
-    </div>
-  ) : (
-    <div>No data</div>
+  return (
+    <section className="flex w-full flex-col gap-4 text-primary-500">
+      <h1 className="text-center font-bold">Kupoprodajni podatci</h1>
+      {contractBaseData ? (
+        <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-500">
+          <ListItem label="Kupac">{contractBaseData.kupac}</ListItem>
+          <ListItem label="Broj ugovora">
+            {contractBaseData.broj_ugovora}
+          </ListItem>
+          <ListItem label="Datum akontacije">
+            {contractBaseData.datum_akontacije}
+          </ListItem>
+          <ListItem label="Rok isporuke">
+            {contractBaseData.rok_isporuke}
+          </ListItem>
+          <ListItem label="Status" variant={contractBaseData.status}>
+            {contractBaseData.status}
+          </ListItem>
+        </ul>
+      ) : (
+        <p>Nema artikala</p>
+      )}
+      <h2 className="text-center font-semibold">Artikli</h2>
+      {contractArticlesData ? (
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-4">
+          {contractArticlesData.map((contractArticle) => (
+            <li key={contractArticle.id}>
+              <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-400">
+                <ListItem label="Naziv">{contractArticle.naziv}</ListItem>
+                <ListItem label="Dobavljač">
+                  {contractArticle.dobavljač}
+                </ListItem>
+                <ListItem label="Status" variant={contractArticle.status}>
+                  {contractArticle.status}
+                </ListItem>
+              </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nema artikala</p>
+      )}
+    </section>
   );
 }
-
-/* import { createFileRoute } from "@tanstack/react-router";
-import { ErrorDisplay } from "../../layouts/ErrorDisplay";
-import { PendingDisplay } from "../../layouts/PendingDisplay";
-import { useSuspenseQueries } from "@tanstack/react-query";
-import {
-  contractBaseQueryOptions,
-  contractArticleQueryOptions,
-} from "../../services/queryOptions";
-import {} from "../../services/queryOptions";
-
-export const Route = createFileRoute("/contract/$contractId")({
-  loader:
-    ({ context: { queryClient }, params: { contractId } }) =>
-    async () => {
-      console.log("R");
-      const contractBasePromise = queryClient.ensureQueryData(
-        contractBaseQueryOptions(contractId),
-      );
-
-      const contractArticlePromise = queryClient.ensureQueryData(
-        contractArticleQueryOptions(contractId),
-      );
-
-      const [contractBaseData, contractArticleData] = await Promise.all([
-        contractBasePromise,
-        contractArticlePromise,
-      ]);
-
-      return { base: contractBaseData, article: contractArticleData };
-    },
-  component: Contract,
-  errorComponent: ErrorDisplay,
-  pendingComponent: PendingDisplay,
-});
-
-function Contract() {
-  const contractId = Route.useParams().contractId;
-
-  const res = useSuspenseQueries({
-    queries: [
-      contractBaseQueryOptions(contractId),
-      contractArticleQueryOptions(contractId),
-    ],
-  });
-
-  console.log(res);
-
-  return contractBaseData ? (
-    <div className="space-y-2">
-      <p>{contractBaseData.kupac}</p>
-      <p>{contractBaseData.broj_ugovora}</p>
-      <p>{contractBaseData.datum_akontacije}</p>
-      <p>{contractBaseData.rok_isporuke}</p>
-      <p>{contractBaseData.status}</p>
-      <p>{JSON.stringify(contractArticlesData)}</p>
-    </div>
-  ) : (
-    <div>No data</div>
-  );
-}
-*/
