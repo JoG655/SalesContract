@@ -1,6 +1,11 @@
-import { Button, type ButtonProps } from "../components/Button";
-import { Spinner, type SpinnerProps } from "../components/Spinner";
+import { createFileRoute } from "@tanstack/react-router";
+import { Button, type ButtonProps } from "../../components/Button";
+import { Spinner, type SpinnerProps } from "../../components/Spinner";
 import { Plus } from "lucide-react";
+
+export const Route = createFileRoute("/bonus/")({
+  component: Bonus,
+});
 
 const spinnerTexts: string[] = ["", "Loading..."];
 const spinnerAnimationCounts: SpinnerProps["animationCount"][] = [
@@ -16,7 +21,7 @@ const buttonSizes: ButtonProps["size"][] = ["sm", "md", "lg", "xl"];
 
 export function Bonus() {
   return (
-    <div className="animate-fadeIn mx-auto flex min-h-dvh max-w-5xl flex-col scroll-smooth">
+    <div className="mx-auto flex min-h-dvh max-w-5xl animate-fadeIn flex-col scroll-smooth">
       <div className="grid flex-grow grid-cols-[auto,minmax(0,1fr)] overflow-auto">
         <div className="text-center">
           <div className="relative z-0 grid place-content-center overflow-hidden p-6 lg:p-8">

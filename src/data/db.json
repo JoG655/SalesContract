@@ -53,7 +53,7 @@
           "id": 3,
           "naziv": "Ploča ugradbena Gorenje HCE691BSC",
           "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČEO"
+          "status": "ISPORUČENO"
         }
       ]
     },
@@ -76,7 +76,7 @@
           "id": 3,
           "naziv": "Ploča ugradbena kombinirana Gorenje GCE691BSC",
           "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČEO"
+          "status": "ISPORUČENO"
         }
       ]
     },
@@ -99,7 +99,7 @@
           "id": 3,
           "naziv": "Ploča ugradbena Gorenje HCE691BSC",
           "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČEO"
+          "status": "ISPORUČENO"
         }
       ]
     }

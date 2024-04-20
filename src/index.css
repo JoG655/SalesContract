@@ -16,7 +16,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-scrollbar rounded-full;
+  @apply rounded-full bg-scrollbar;
 }
 
 .scrollbar-hidden {
@@ -38,14 +38,14 @@
 .spinner {
   --spinner-gap: 10ch;
   --spinner-text-shadow-blur-radius: 0.4rem;
-  --spinner-text-shadow-color: theme(colors.neutral.50);
+  --spinner-text-shadow-color: theme(colors.primary.50);
   --spinner-animation-index: 1;
   --spinner-animation-index-duration-factor: 1;
   --spinner-animation-duration: 3s;
   --spinner-animation-size: 0.3rem;
   --spinner-animation-gap: 0.2rem;
-  --spinner-animation-color-even: theme(colors.slate.500);
-  --spinner-animation-color-odd: theme(colors.amber.500);
+  --spinner-animation-color-even: theme(colors.primary.500);
+  --spinner-animation-color-odd: theme(colors.secondary.500);
 
   @apply relative grid place-items-center rounded-full;
 }
@@ -54,7 +54,7 @@
 }
 
 .spinner__text {
-  @apply absolute px-2 text-center text-sm font-black text-neutral-800;
+  @apply absolute px-2 text-center text-sm font-black text-primary-800;
 
   grid-row: 1 / -1;
   grid-column: 1 / -1;

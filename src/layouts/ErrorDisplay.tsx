@@ -1,12 +1,12 @@
-import { NotFoundError } from "../api/contractArticles";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import {
-  ErrorComponent,
   type ErrorComponentProps,
+  ErrorComponent,
   useRouter,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Button } from "../components/Button";
+import { NotFoundError } from "../services/api";
 
 export function ErrorDisplay({ error, reset }: ErrorComponentProps) {
   const router = useRouter();
