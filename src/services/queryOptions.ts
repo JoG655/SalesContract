@@ -1,13 +1,32 @@
-import { queryOptions } from "@tanstack/react-query";
-import { getContracts, getContractArticles } from "./api";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  type DeleteContractAndContractArticlesProps,
+  getContracts,
+  getContractArticles,
+  deleteContractAndContractArticles,
+} from "./api";
 
-export const homeQueryOptions = queryOptions({
-  queryKey: ["home"],
+export const contractsQueryOptions = queryOptions({
+  queryKey: ["contracts"],
   queryFn: () => getContracts(),
 });
 
-export const contractQueryOptions = (contractId: string) =>
+export const contractArticlesQueryOptions = (contractId: string) =>
   queryOptions({
-    queryKey: ["contract", { contractId }],
+    queryKey: ["contractArticles", { contractId }],
     queryFn: () => getContractArticles(contractId),
   });
+
+export const useDeleteContractAndContractArticlesMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: DeleteContractAndContractArticlesProps) =>
+      deleteContractAndContractArticles(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["contracts"] }),
+  });
+};

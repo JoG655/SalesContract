@@ -3,8 +3,8 @@ import { ErrorDisplay } from "../../layouts/ErrorDisplay";
 import { PendingDisplay } from "../../layouts/PendingDisplay";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import {
-  homeQueryOptions,
-  contractQueryOptions,
+  contractsQueryOptions,
+  contractArticlesQueryOptions,
 } from "../../services/queryOptions";
 import { convertContractId } from "../../utils/convertContractId";
 import { Button } from "../../components/Button";
@@ -16,16 +16,16 @@ export const Route = createFileRoute("/contract/$contractId")({
   /* loader:
     ({ context: { queryClient }, params: { contractId } }) =>
     async () => {
-      const contractBasePromise = queryClient.ensureQueryData(homeQueryOptions);
+      const contractBasePromise = queryClient.ensureQueryData(contractsQueryOptions);
 
       const contractArticlePromise = queryClient.ensureQueryData(
-        contractQueryOptions(contractId),
+        contractArticlesQueryOptions(contractId),
       );
 
       return Promise.all([contractBasePromise, contractArticlePromise]);
     }, */
   loader: ({ context: { queryClient }, params: { contractId } }) =>
-    queryClient.ensureQueryData(contractQueryOptions(contractId)),
+    queryClient.ensureQueryData(contractArticlesQueryOptions(contractId)),
   component: Contract,
   errorComponent: ErrorDisplay,
   pendingComponent: PendingDisplay,
@@ -35,7 +35,7 @@ function Contract() {
   const contractId = Route.useParams().contractId;
 
   const [homeRes, contractRes] = useSuspenseQueries({
-    queries: [homeQueryOptions, contractQueryOptions(contractId)],
+    queries: [contractsQueryOptions, contractArticlesQueryOptions(contractId)],
   });
 
   const contractBaseData = homeRes.data.filter(

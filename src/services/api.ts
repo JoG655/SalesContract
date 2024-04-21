@@ -3,7 +3,7 @@ import { convertContractId } from "../utils/convertContractId";
 import { type ArticleType, type ContractType } from "../types/general";
 
 const BASE_URL = "http://localhost:7000";
-const TIMEOUT = 2500;
+const TIMEOUT = 100;
 
 const axiosInstance = axios.create({ baseURL: BASE_URL });
 
@@ -30,7 +30,7 @@ export async function deleteContract(id: string) {
 
   await new Promise((r) => setTimeout(r, TIMEOUT));
 
-  await axiosInstance.delete(`contracts/${id}`);
+  return await axiosInstance.delete(`contracts/${id}`);
 }
 
 export async function getContract(contractId: string) {
@@ -74,19 +74,25 @@ export async function deleteContractArticles(contractId: string) {
 
   await new Promise((r) => setTimeout(r, TIMEOUT));
 
-  await axiosInstance.delete(`articles/${contractId}`);
+  return await axiosInstance.delete(`articles/${contractId}`);
 }
 
-export async function deleteContractAndContractArticles(
-  id: string,
-  contractId: string,
-) {
+export type DeleteContractAndContractArticlesProps = {
+  id: string;
+  contractId: string;
+};
+export async function deleteContractAndContractArticles({
+  id,
+  contractId,
+}: DeleteContractAndContractArticlesProps) {
   console.log(
     `Deleting contract with id ${id} and contract articles with id ${contractId}...`,
   );
 
-  await Promise.all([
+  const results = await Promise.all([
     deleteContract(id),
     deleteContractArticles(convertContractId.display2param(contractId)),
   ]);
+
+  return results;
 }

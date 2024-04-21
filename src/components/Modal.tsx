@@ -1,15 +1,21 @@
-import { type ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import {
+  type SetStateAction,
+  type Dispatch,
+  type ComponentPropsWithoutRef,
+  useEffect,
+  useRef,
+} from "react";
 import { twMerge } from "tailwind-merge";
 import { trapFocus } from "../utils/trapFocus";
 
 export type ModalProps = {
   isOpen: boolean;
-  onClose: () => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 } & ComponentPropsWithoutRef<"dialog">;
 
 export function Modal({
   isOpen,
-  onClose,
+  setIsOpen,
   className,
   children,
   ...rest
@@ -44,13 +50,13 @@ export function Modal({
     <dialog
       ref={ref}
       className={twMerge(
-        "rounded-lg p-0 backdrop:bg-gray-400 backdrop:bg-opacity-50 open:animate-fadeIn open:backdrop:animate-fadeIn",
+        "rounded-xl p-0 shadow-[0_0_20px_20px] shadow-primary-500 outline-none backdrop:bg-gray-400 backdrop:bg-opacity-50 open:animate-fadeIn open:backdrop:animate-fadeIn",
         className,
       )}
       onClick={(e) => {
         if (e.target !== ref.current) return;
 
-        onClose();
+        setIsOpen(false);
 
         if (ref.current) {
           ref.current.close();
@@ -59,7 +65,7 @@ export function Modal({
       onKeyDown={(e) => {
         if (e.key !== "Escape") return;
 
-        onClose();
+        setIsOpen(false);
       }}
       {...rest}
     >
