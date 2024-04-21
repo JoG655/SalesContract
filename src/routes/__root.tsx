@@ -13,8 +13,8 @@ export const Route = createRootRouteWithContext<{
 function Root() {
   return (
     <>
-      <nav className="flex w-full items-center justify-center gap-4 border-b-2 border-primary-700 p-4 text-lg">
-        <NavLink to="/" activeOptions={{ exact: true }}>
+      <nav className="sticky top-0 flex w-full items-center justify-center gap-4 border-b-2 border-primary-700 bg-white p-4 text-lg">
+        <NavLink to="/" activeOptions={{ includeSearch: true }}>
           Početna
         </NavLink>
         <NavLink to="/bonus">Bonus</NavLink>

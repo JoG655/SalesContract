@@ -1,11 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ErrorDisplay } from "../layouts/ErrorDisplay";
 import { PendingDisplay } from "../layouts/PendingDisplay";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { homeQueryOptions } from "../services/queryOptions";
 import { Button } from "../components/Button";
-import { Check, Edit, List, Plus, Trash, X } from "lucide-react";
+import { InputSearch } from "../components/InputSearch";
+import {
+  Activity,
+  Check,
+  Edit,
+  List,
+  Plus,
+  Search,
+  Send,
+  Trash,
+  X,
+} from "lucide-react";
+import { InputSelect } from "../components/InputSelect";
 import { ListItem } from "../components/ListItem";
 import { formatDate } from "../utils/formatDate";
 import { NavLink } from "../components/NavLink";
@@ -13,7 +26,15 @@ import { convertContractId } from "../utils/convertContractId";
 import { Modal } from "../components/Modal";
 import { deleteContractAndContractArticles } from "../services/api";
 
+const contractsSearchSchema = z.object({
+  buyer: z.string().catch(""),
+  active: z.string().catch("notSelected"),
+});
+
+// type ContractsSearch = z.infer<typeof contractsSearchSchema>;
+
 export const Route = createFileRoute("/")({
+  validateSearch: contractsSearchSchema,
   loader: ({ context: { queryClient } }) =>
     queryClient.ensureQueryData(homeQueryOptions),
   component: Home,
@@ -23,6 +44,38 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const { data } = useSuspenseQuery(homeQueryOptions);
+
+  const { buyer, active } = Route.useSearch();
+  console.log(buyer, active);
+
+  const navigate = useNavigate({ from: Route.fullPath });
+
+  const [filteredData, setFilteredData] = useState(data);
+
+  useEffect(() => {
+    if (!buyer && active === "notSelected") {
+      setFilteredData([...data]);
+
+      return;
+    }
+
+    const newFilteredData = data.filter((contract) => {
+      const buyerMatches = buyer
+        ? contract.kupac.toLowerCase().includes(buyer.toLowerCase())
+        : true;
+
+      const activeMatches =
+        active === "notSelected"
+          ? true
+          : active === "true"
+            ? contract.status === "KREIRANO" || contract.status === "NARUČENO"
+            : contract.status === "ISPORUČENO";
+
+      return buyerMatches && activeMatches;
+    });
+
+    setFilteredData([...newFilteredData]);
+  }, [active, buyer, data]);
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -38,9 +91,70 @@ function Home() {
         </Button>
       </div>
       <h1 className="text-center font-bold">Kupoprodajni ugovori</h1>
-      {data.length ? (
+      <form
+        className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row"
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          e.stopPropagation();
+
+          const data = new FormData(e.target as HTMLFormElement);
+
+          const formData = Array.from(data.entries()).reduce<
+            Record<string, string>
+          >((acc, [key, value]) => {
+            acc[key] = value.toString();
+
+            return acc;
+          }, {});
+
+          navigate({
+            search: {
+              buyer: formData.buyer,
+              active: formData.active,
+            },
+          });
+        }}
+        onReset={(e) => {
+          e.stopPropagation();
+
+          navigate({
+            search: {
+              buyer: "",
+              active: "notSelected",
+            },
+          });
+        }}
+      >
+        <InputSearch name="buyer">
+          <Search />
+          Naziv
+        </InputSearch>
+        <InputSelect
+          name="active"
+          options={{
+            notSelected: "Nije odabrano",
+            true: "Aktivni",
+            false: "Neaktivni",
+          }}
+        >
+          <Activity />
+          Aktivnost
+        </InputSelect>
+        <div className="flex gap-2">
+          <Button type="submit">
+            Traži
+            <Send />
+          </Button>
+          <Button type="reset">
+            Očisti
+            <Trash />
+          </Button>
+        </div>
+      </form>
+      {filteredData.length ? (
         <ul className="grid grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-4">
-          {data.map((contract) => (
+          {filteredData.map((contract) => (
             <ul
               key={contract.id}
               className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-500"

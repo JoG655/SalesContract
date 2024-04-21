@@ -20,7 +20,8 @@
     "lucide-react": "^0.372.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.2.2"
+    "tailwind-merge": "^2.2.2",
+    "zod": "^3.22.5"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.29.2",

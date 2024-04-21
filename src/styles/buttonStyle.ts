@@ -10,9 +10,9 @@ export const buttonStyle = cva(
     "leading-none",
     "ring-focus",
     "transition",
+    "hover:cursor-pointer",
     "focus:outline-none",
     "focus-visible:ring-4",
-    "hover:cursor-pointer",
     "disabled:cursor-not-allowed",
   ],
   {
@@ -48,10 +48,10 @@ export const buttonStyle = cva(
         ],
       },
       size: {
-        sm: ["text-sm", "min-h-9", "px-3", "py-1.5"],
-        md: ["text-sm", "min-h-10", "px-5", "py-2"],
-        lg: ["text-md", "min-h-11", "px-5", "py-2.5"],
-        xl: ["text-md", "min-h-12", "px-6", "py-3"],
+        sm: ["min-h-9", "px-3", "py-1.5", "text-sm"],
+        md: ["min-h-10", "px-5", "py-2", "text-sm"],
+        lg: ["min-h-11", "px-5", "py-2.5", "text-md"],
+        xl: ["min-h-12", "px-6", "py-3", "text-md"],
       },
       btnType: {
         button: "",
