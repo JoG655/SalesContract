@@ -1,12 +1,28 @@
+import {
+  type ContractsSearchActive,
+  type ContractsSearch,
+} from "../routes/index";
 import { useNavigate } from "@tanstack/react-router";
-import { Route } from "../routes/index";
-import { InputSearch } from "../components/InputSearch";
-import { Activity, Search, Send, Trash } from "lucide-react";
-import { InputSelect } from "../components/InputSelect";
+import { useState } from "react";
+import { Input } from "../components/Input";
+import { Activity, Search, SearchCode, X } from "lucide-react";
+import { Select } from "../components/Select";
 import { Button } from "../components/Button";
 
-export function SearchForm() {
-  const navigate = useNavigate({ from: Route.fullPath });
+const ACTIVE_OPTIONS: Record<ContractsSearchActive, string> = {
+  notSelected: "Nije odabrano",
+  active: "Aktivni",
+  inactive: "Neaktivni",
+};
+
+export type SearchFormProps = { routeFullPath: string } & ContractsSearch;
+
+export function SearchForm({ routeFullPath, buyer, active }: SearchFormProps) {
+  const navigate = useNavigate({ from: routeFullPath });
+
+  const [buyerValue, setBuyerValue] = useState(buyer);
+
+  const [activeValue, setActiveValue] = useState(active);
 
   return (
     <form
@@ -16,22 +32,12 @@ export function SearchForm() {
 
         e.stopPropagation();
 
-        const data = new FormData(e.target as HTMLFormElement);
-
-        const formData = Array.from(data.entries()).reduce<
-          Record<string, string>
-        >((acc, [key, value]) => {
-          acc[key] = value.toString();
-
-          return acc;
-        }, {});
-
         navigate({
           search: (old) => {
             return {
               ...old,
-              buyer: formData.buyer,
-              active: formData.active,
+              buyer: buyerValue,
+              active: activeValue,
             };
           },
         });
@@ -39,37 +45,44 @@ export function SearchForm() {
       onReset={(e) => {
         e.stopPropagation();
 
+        setBuyerValue("");
+
+        setActiveValue("notSelected");
+
         navigate({
-          search: {
-            buyer: "",
-            active: "notSelected",
+          search: (old) => {
+            return {
+              ...old,
+              buyer: "",
+              active: "notSelected",
+            };
           },
         });
       }}
     >
-      <InputSearch name="buyer">
-        <Search />
-        Naziv
-      </InputSearch>
-      <InputSelect
-        name="active"
-        options={{
-          notSelected: "Nije odabrano",
-          true: "Aktivni",
-          false: "Neaktivni",
-        }}
+      <Input
+        type="search"
+        placeholder="npr. Josip"
+        value={buyerValue}
+        onChange={(e) => setBuyerValue(e.target.value)}
+      >
+        <SearchCode />
+      </Input>
+      <Select
+        value={activeValue}
+        onChange={(e) =>
+          setActiveValue(e.target.value as ContractsSearchActive)
+        }
+        options={ACTIVE_OPTIONS}
       >
         <Activity />
-        Aktivnost
-      </InputSelect>
+      </Select>
       <div className="flex gap-2">
         <Button type="submit">
-          Traži
-          <Send />
+          <Search />
         </Button>
-        <Button type="reset">
-          Očisti
-          <Trash />
+        <Button variant="outline" type="reset">
+          <X />
         </Button>
       </div>
     </form>

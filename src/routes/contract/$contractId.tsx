@@ -10,7 +10,7 @@ import { convertContractId } from "../../utils/convertContractId";
 import { Button } from "../../components/Button";
 import { ArrowLeft } from "lucide-react";
 import { ListItem } from "../../components/ListItem";
-import { formatDate } from "../../utils/formatDate";
+import { CardContract } from "../../layouts/CardContract";
 
 export const Route = createFileRoute("/contract/$contractId")({
   /* loader:
@@ -57,21 +57,7 @@ function Contract() {
       </div>
       <h1 className="text-center font-bold">Kupoprodajni podatci</h1>
       {contractBaseData ? (
-        <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-500">
-          <ListItem label="Kupac">{contractBaseData.kupac}</ListItem>
-          <ListItem label="Broj ugovora">
-            {contractBaseData.broj_ugovora}
-          </ListItem>
-          <ListItem label="Datum akontacije">
-            {formatDate(contractBaseData.datum_akontacije)}
-          </ListItem>
-          <ListItem label="Rok isporuke">
-            {formatDate(contractBaseData.rok_isporuke)}
-          </ListItem>
-          <ListItem label="Status" variant={contractBaseData.status}>
-            {contractBaseData.status}
-          </ListItem>
-        </ul>
+        <CardContract data={contractBaseData} />
       ) : (
         <p className="text-center">Nema kupoprodajnog ugovora</p>
       )}

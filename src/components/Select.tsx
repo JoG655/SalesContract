@@ -3,19 +3,19 @@ import { inputStyle } from "../styles/inputStyle";
 import { type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-export type InputSelectProps = {
+export type SelectProps = {
   options: Record<string, string>;
 } & VariantProps<typeof inputStyle> &
   ComponentPropsWithoutRef<"select">;
 
-export function InputSelect({
+export function Select({
   options,
   variant,
   size,
   className,
   children,
   ...rest
-}: InputSelectProps) {
+}: SelectProps) {
   return (
     <>
       <label className="flex items-center gap-2 hover:cursor-pointer">

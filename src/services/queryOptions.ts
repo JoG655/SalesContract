@@ -4,8 +4,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import {
+  type PatchContractProps,
   type DeleteContractAndContractArticlesProps,
   getContracts,
+  patchContract,
   getContractArticles,
   deleteContractAndContractArticles,
 } from "./api";
@@ -20,6 +22,15 @@ export const contractArticlesQueryOptions = (contractId: string) =>
     queryKey: ["contractArticles", { contractId }],
     queryFn: () => getContractArticles(contractId),
   });
+
+export const usePatchContractMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: PatchContractProps) => patchContract(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["contracts"] }),
+  });
+};
 
 export const useDeleteContractAndContractArticlesMutation = () => {
   const queryClient = useQueryClient();

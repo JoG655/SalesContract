@@ -23,14 +23,6 @@
       "datum_akontacije": "2024-03-03",
       "rok_isporuke": "2024-04-15",
       "status": "NARUČENO"
-    },
-    {
-      "id": "4",
-      "kupac": "Tia Janković",
-      "broj_ugovora": "4/2024",
-      "datum_akontacije": "2024-03-14",
-      "rok_isporuke": "2024-08-13",
-      "status": "KREIRANO"
     }
   ],
   "articles": [
@@ -88,29 +80,6 @@
     },
     {
       "id": "3-2024",
-      "items": [
-        {
-          "id": 1,
-          "naziv": "Perilica posuđa ugradbena Gorenje HHA27200L",
-          "dobavljač": "Links",
-          "status": "NARUČENO"
-        },
-        {
-          "id": 2,
-          "naziv": "Napa Gorenje TH60E3X",
-          "dobavljač": "Links",
-          "status": "NARUČENO"
-        },
-        {
-          "id": 3,
-          "naziv": "Ploča ugradbena Gorenje HCE691BSC",
-          "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČENO"
-        }
-      ]
-    },
-    {
-      "id": "4-2024",
       "items": [
         {
           "id": 1,

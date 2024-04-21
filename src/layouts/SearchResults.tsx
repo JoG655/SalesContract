@@ -1,7 +1,6 @@
+import { type ContractType } from "../types/general";
+import { type ContractsSearch } from "../routes/index";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { contractsQueryOptions } from "../services/queryOptions";
-import { Route } from "../routes/index";
 import { ListItem } from "../components/ListItem";
 import { formatDate } from "../utils/formatDate";
 import { Button } from "../components/Button";
@@ -10,23 +9,24 @@ import { NavLink } from "../components/NavLink";
 import { convertContractId } from "../utils/convertContractId";
 
 export type SearchResultsProps = {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  data: ContractType[];
+  setIsDeleteOpen: Dispatch<SetStateAction<boolean>>;
+  setIsEditOpen: Dispatch<SetStateAction<boolean>>;
   setId: Dispatch<SetStateAction<string>>;
-  setContractId: Dispatch<SetStateAction<string>>;
-};
+} & ContractsSearch;
+
 export function SearchResults({
-  setIsOpen,
+  data,
+  buyer,
+  active,
+  setIsDeleteOpen,
+  setIsEditOpen,
   setId,
-  setContractId,
 }: SearchResultsProps) {
-  const { data } = useSuspenseQuery(contractsQueryOptions);
-
-  const { buyer, active } = Route.useSearch();
-
   const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
-    console.log("update");
+    console.log("Effect ran");
     if (!buyer && active === "notSelected") {
       setFilteredData([...data]);
 
@@ -41,9 +41,11 @@ export function SearchResults({
       const activeMatches =
         active === "notSelected"
           ? true
-          : active === "true"
+          : active === "active"
             ? contract.status === "KREIRANO" || contract.status === "NARUČENO"
-            : contract.status === "ISPORUČENO";
+            : active === "inactive"
+              ? contract.status === "ISPORUČENO"
+              : false;
 
       return buyerMatches && activeMatches;
     });
@@ -70,7 +72,15 @@ export function SearchResults({
             {contract.status}
           </ListItem>
           <ListItem label="Akcije" container>
-            <Button variant="outline" btnType="icon">
+            <Button
+              variant="outline"
+              btnType="icon"
+              onClick={() => {
+                setIsEditOpen(true);
+
+                setId(contract.id);
+              }}
+            >
               <Edit />
             </Button>
             <NavLink
@@ -92,11 +102,9 @@ export function SearchResults({
               variant="outline"
               btnType="icon"
               onClick={() => {
-                setIsOpen(true);
+                setIsDeleteOpen(true);
 
                 setId(contract.id);
-
-                setContractId(contract.broj_ugovora);
               }}
             >
               <Trash className="text-red-600" />

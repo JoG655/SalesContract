@@ -2,7 +2,7 @@ import { type StatusType } from "../types/general";
 import { type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-export type ButtonProps = {
+export type ListItemProps = {
   label: string;
   container?: boolean;
   variant?: StatusType;
@@ -15,7 +15,7 @@ export function ListItem({
   className,
   children,
   ...rest
-}: ButtonProps) {
+}: ListItemProps) {
   return (
     <li
       className={twMerge(
