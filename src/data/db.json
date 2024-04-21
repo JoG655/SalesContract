@@ -1,7 +1,7 @@
 {
   "contracts": [
     {
-      "id": 1,
+      "id": "1",
       "kupac": "Petra Kranjčar",
       "broj_ugovora": "1/2024",
       "datum_akontacije": "2024-01-04",
@@ -9,7 +9,7 @@
       "status": "KREIRANO"
     },
     {
-      "id": 2,
+      "id": "2",
       "kupac": "Franko Kasun",
       "broj_ugovora": "2/2024",
       "datum_akontacije": "2024-03-01",
@@ -17,7 +17,7 @@
       "status": "ISPORUČENO"
     },
     {
-      "id": 3,
+      "id": "3",
       "kupac": "Stjepan Babić",
       "broj_ugovora": "3/2024",
       "datum_akontacije": "2024-03-03",
@@ -25,7 +25,7 @@
       "status": "NARUČENO"
     },
     {
-      "id": 4,
+      "id": "4",
       "kupac": "Tia Janković",
       "broj_ugovora": "4/2024",
       "datum_akontacije": "2024-03-14",
@@ -88,6 +88,29 @@
     },
     {
       "id": "3-2024",
+      "items": [
+        {
+          "id": 1,
+          "naziv": "Perilica posuđa ugradbena Gorenje HHA27200L",
+          "dobavljač": "Links",
+          "status": "NARUČENO"
+        },
+        {
+          "id": 2,
+          "naziv": "Napa Gorenje TH60E3X",
+          "dobavljač": "Links",
+          "status": "NARUČENO"
+        },
+        {
+          "id": 3,
+          "naziv": "Ploča ugradbena Gorenje HCE691BSC",
+          "dobavljač": "Bijela tehnika",
+          "status": "ISPORUČENO"
+        }
+      ]
+    },
+    {
+      "id": "4-2024",
       "items": [
         {
           "id": 1,

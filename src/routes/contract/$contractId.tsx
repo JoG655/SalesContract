@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ErrorDisplay } from "../../layouts/ErrorDisplay";
 import { PendingDisplay } from "../../layouts/PendingDisplay";
 import { useSuspenseQueries } from "@tanstack/react-query";
@@ -7,7 +7,10 @@ import {
   contractQueryOptions,
 } from "../../services/queryOptions";
 import { convertContractId } from "../../utils/convertContractId";
+import { Button } from "../../components/Button";
+import { ArrowLeft } from "lucide-react";
 import { ListItem } from "../../components/ListItem";
+import { formatDate } from "../../utils/formatDate";
 
 export const Route = createFileRoute("/contract/$contractId")({
   /* loader:
@@ -42,8 +45,16 @@ function Contract() {
 
   const contractArticlesData = contractRes.data;
 
+  const { history } = useRouter();
+
   return (
     <section className="flex w-full flex-col gap-4 text-primary-500">
+      <div className="flex justify-center">
+        <Button size="xl" onClick={() => history.go(-1)}>
+          <ArrowLeft />
+          Vrati se na prethodnu stranicu
+        </Button>
+      </div>
       <h1 className="text-center font-bold">Kupoprodajni podatci</h1>
       {contractBaseData ? (
         <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-500">
@@ -52,21 +63,21 @@ function Contract() {
             {contractBaseData.broj_ugovora}
           </ListItem>
           <ListItem label="Datum akontacije">
-            {contractBaseData.datum_akontacije}
+            {formatDate(contractBaseData.datum_akontacije)}
           </ListItem>
           <ListItem label="Rok isporuke">
-            {contractBaseData.rok_isporuke}
+            {formatDate(contractBaseData.rok_isporuke)}
           </ListItem>
           <ListItem label="Status" variant={contractBaseData.status}>
             {contractBaseData.status}
           </ListItem>
         </ul>
       ) : (
-        <p>Nema artikala</p>
+        <p className="text-center">Nema kupoprodajnog ugovora</p>
       )}
       <h2 className="text-center font-semibold">Artikli</h2>
-      {contractArticlesData ? (
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-4">
+      {contractArticlesData.length ? (
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-4">
           {contractArticlesData.map((contractArticle) => (
             <li key={contractArticle.id}>
               <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-400">
@@ -82,7 +93,7 @@ function Contract() {
           ))}
         </ul>
       ) : (
-        <p>Nema artikala</p>
+        <p className="text-center">Nema artikala</p>
       )}
     </section>
   );

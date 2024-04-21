@@ -1,5 +1,6 @@
 import "./index.css";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { NotFoundDisplay } from "./layouts/NotFoundDisplay";
 import { routeTree } from "./routeTree.gen";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,6 +14,7 @@ const router = createRouter({
   },
   defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
+  defaultNotFoundComponent: NotFoundDisplay,
 });
 declare module "@tanstack/react-router" {
   interface Register {

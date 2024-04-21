@@ -5,11 +5,12 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Button } from "../components/Button";
 import { NotFoundError } from "../services/api";
+import { Button } from "../components/Button";
+import { ArrowLeft, RefreshCcw } from "lucide-react";
 
 export function ErrorDisplay({ error, reset }: ErrorComponentProps) {
-  const router = useRouter();
+  const { invalidate, history } = useRouter();
 
   const queryErrorResetBoundary = useQueryErrorResetBoundary();
 
@@ -24,15 +25,23 @@ export function ErrorDisplay({ error, reset }: ErrorComponentProps) {
       ) : (
         <ErrorComponent error={error} />
       )}
-      <Button
-        variant={"outline"}
-        onClick={() => {
-          reset();
-          router.invalidate();
-        }}
-      >
-        Pokušaj ponovo
-      </Button>
+      <div className="flex gap-2">
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            reset();
+
+            invalidate();
+          }}
+        >
+          Pokušaj ponovo
+          <RefreshCcw />
+        </Button>
+        <Button variant={"outline"} onClick={() => history.go(-1)}>
+          <ArrowLeft />
+          Vrati se na prethodnu stranicu
+        </Button>
+      </div>
     </div>
   );
 }

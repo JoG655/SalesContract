@@ -4,11 +4,13 @@ import { twMerge } from "tailwind-merge";
 
 export type ButtonProps = {
   label: string;
+  container?: boolean;
   variant?: StatusType;
 } & ComponentPropsWithoutRef<"li">;
 
 export function ListItem({
   label,
+  container,
   variant,
   className,
   children,
@@ -17,22 +19,26 @@ export function ListItem({
   return (
     <li
       className={twMerge(
-        "flex h-full justify-between gap-2 border-b-2 border-primary-200 px-8 py-2",
+        "flex h-full justify-between gap-2 border-b-2 border-primary-200 px-2 py-1 md:px-4 md:py-2",
         className,
       )}
       {...rest}
     >
       <p className="text-balance">{`${label}:`}</p>
-      <p
-        className={twMerge(
-          "text-balance text-right",
-          variant === "KREIRANO" ? "text-green-500" : null,
-          variant === "NARUČENO" ? "text-yellow-500" : null,
-          variant === "ISPORUČENO" ? "text-gray-500" : null,
-        )}
-      >
-        {children}
-      </p>
+      {container ? (
+        <div className="flex gap-2">{children}</div>
+      ) : (
+        <p
+          className={twMerge(
+            "flex gap-2 text-balance text-right",
+            variant === "KREIRANO" ? "text-green-500" : null,
+            variant === "NARUČENO" ? "text-yellow-500" : null,
+            variant === "ISPORUČENO" ? "text-gray-500" : null,
+          )}
+        >
+          {children}
+        </p>
+      )}
     </li>
   );
 }

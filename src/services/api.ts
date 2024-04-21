@@ -15,14 +15,22 @@ export async function getContracts() {
   await new Promise((r) => setTimeout(r, TIMEOUT));
 
   const items = axiosInstance
-    .get<ContractType[]>("http://localhost:7000/contracts")
+    .get<ContractType[]>("contracts")
     .then((r) => r.data);
 
   if (!items) {
-    throw new NotFoundError("Prodajni ugovori nisu pronađeni!");
+    throw new NotFoundError("Kupoprodajni ugovori nisu pronađeni!");
   }
 
   return items;
+}
+
+export async function deleteContract(id: string) {
+  console.log(`Deleting contract with id ${id}...`);
+
+  await new Promise((r) => setTimeout(r, TIMEOUT));
+
+  await axiosInstance.delete(`contracts/${id}`);
 }
 
 export async function getContract(contractId: string) {
@@ -33,11 +41,11 @@ export async function getContract(contractId: string) {
   const items = axiosInstance
     .get<
       ContractType[]
-    >(`http://localhost:7000/contracts?broj_ugovora=${convertContractId.param2display(contractId)}`)
+    >(`contracts?broj_ugovora=${convertContractId.param2display(contractId)}`)
     .then((r) => r.data[0]);
 
   if (!items) {
-    throw new NotFoundError("Prodajni ugovor nije pronađen!");
+    throw new NotFoundError("Kupoprodajni ugovor nije pronađen!");
   }
 
   return items;
@@ -49,7 +57,7 @@ export async function getContractArticles(contractId: string) {
   await new Promise((r) => setTimeout(r, TIMEOUT));
 
   const items = await axiosInstance
-    .get<ArticleType>(`http://localhost:7000/articles/${contractId}`)
+    .get<ArticleType>(`articles/${contractId}`)
     .then((r) => r.data.items);
 
   if (!items) {
@@ -59,4 +67,26 @@ export async function getContractArticles(contractId: string) {
   }
 
   return items;
+}
+
+export async function deleteContractArticles(contractId: string) {
+  console.log(`Deleting contract articles with id ${contractId}...`);
+
+  await new Promise((r) => setTimeout(r, TIMEOUT));
+
+  await axiosInstance.delete(`articles/${contractId}`);
+}
+
+export async function deleteContractAndContractArticles(
+  id: string,
+  contractId: string,
+) {
+  console.log(
+    `Deleting contract with id ${id} and contract articles with id ${contractId}...`,
+  );
+
+  await Promise.all([
+    deleteContract(id),
+    deleteContractArticles(convertContractId.display2param(contractId)),
+  ]);
 }
