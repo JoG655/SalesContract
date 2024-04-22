@@ -10,7 +10,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write --ignore-path .gitignore .",
     "deploy": "npm run lint && npm run format && npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "demo": "npm-run-all -p dev server"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.29.2",
@@ -37,6 +38,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "json-server": "^1.0.0-alpha.23",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",

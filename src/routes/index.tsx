@@ -14,6 +14,7 @@ import { SearchForm } from "../layouts/SearchForm";
 import { SearchResults } from "../layouts/SearchResults";
 import { Modal } from "../components/Modal";
 import { EditForm } from "../layouts/EditForm";
+import { AddForm } from "../layouts/AddForm";
 
 const contractsSearchSchema = z.object({
   buyer: z.string().catch(""),
@@ -44,6 +45,8 @@ function Home() {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
 
+  const [isAddOpen, setIsAddOpen] = useState(false);
+
   const [id, setId] = useState(data[0].id);
 
   const [activeContract, setActiveContract] = useState(data[0]);
@@ -59,7 +62,7 @@ function Home() {
     <>
       <section className="flex w-full flex-col gap-4 text-primary-500">
         <div className="flex justify-center">
-          <Button size="xl">
+          <Button size="xl" onClick={() => setIsAddOpen(true)}>
             Dodaj novi kupoprodajni ugovor <Plus />
           </Button>
         </div>
@@ -86,7 +89,7 @@ function Home() {
               onClick={async () => {
                 await mutateDeleteContractAndContractArticles({
                   id: id,
-                  contractId: activeContract.broj_ugovora,
+                  contractId: activeContract.contractId,
                 });
 
                 setIsDeleteOpen(false);
@@ -105,13 +108,23 @@ function Home() {
           <h3>Uređivanje kupoprodajnog ugovora</h3>
           <EditForm
             id={id}
-            deliveryDate={activeContract.rok_isporuke}
+            deliveryDate={activeContract.deliveryDate}
             status={activeContract.status}
           >
             <Button variant="outline" onClick={() => setIsEditOpen(false)}>
               <DoorOpen />
             </Button>
           </EditForm>
+        </div>
+      </Modal>
+      <Modal isOpen={isAddOpen} setIsOpen={setIsAddOpen}>
+        <div className="flex flex-col items-center gap-6 p-14">
+          <h3>Uređivanje kupoprodajnog ugovora</h3>
+          <AddForm data={data}>
+            <Button variant="outline" onClick={() => setIsAddOpen(false)}>
+              <DoorOpen />
+            </Button>
+          </AddForm>
         </div>
       </Modal>
     </>

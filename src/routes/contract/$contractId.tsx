@@ -11,6 +11,7 @@ import { Button } from "../../components/Button";
 import { ArrowLeft } from "lucide-react";
 import { ListItem } from "../../components/ListItem";
 import { CardContract } from "../../layouts/CardContract";
+import { convertStatus } from "../../utils/convertStatus";
 
 export const Route = createFileRoute("/contract/$contractId")({
   /* loader:
@@ -40,7 +41,7 @@ function Contract() {
 
   const contractBaseData = homeRes.data.filter(
     (contract) =>
-      convertContractId.param2display(contractId) === contract.broj_ugovora,
+      convertContractId.param2display(contractId) === contract.contractId,
   )[0];
 
   const contractArticlesData = contractRes.data;
@@ -67,12 +68,12 @@ function Contract() {
           {contractArticlesData.map((contractArticle) => (
             <li key={contractArticle.id}>
               <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-400">
-                <ListItem label="Naziv">{contractArticle.naziv}</ListItem>
+                <ListItem label="Naziv">{contractArticle.name}</ListItem>
                 <ListItem label="Dobavljač">
-                  {contractArticle.dobavljač}
+                  {contractArticle.supplier}
                 </ListItem>
                 <ListItem label="Status" variant={contractArticle.status}>
-                  {contractArticle.status}
+                  {convertStatus.param2display(contractArticle.status)}
                 </ListItem>
               </ul>
             </li>

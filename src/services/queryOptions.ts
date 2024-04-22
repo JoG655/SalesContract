@@ -5,9 +5,11 @@ import {
 } from "@tanstack/react-query";
 import {
   type PatchContractProps,
+  type PostContractProps,
   type DeleteContractAndContractArticlesProps,
   getContracts,
   patchContract,
+  postContract,
   getContractArticles,
   deleteContractAndContractArticles,
 } from "./api";
@@ -28,6 +30,15 @@ export const usePatchContractMutation = () => {
 
   return useMutation({
     mutationFn: (data: PatchContractProps) => patchContract(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["contracts"] }),
+  });
+};
+
+export const usePostContractMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: PostContractProps) => postContract(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["contracts"] }),
   });
 };

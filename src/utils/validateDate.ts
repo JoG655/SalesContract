@@ -5,7 +5,15 @@
  *   0 =>  "OK"
  */
 
-export function validateDate(date: string) {
+type ValidateDateOptions = {
+  checkLessThanNow?: boolean;
+};
+export function validateDate(
+  date: string,
+  options: ValidateDateOptions = {
+    checkLessThanNow: false,
+  },
+) {
   const dateFormatRegEx = /^\d{4}-\d{2}-\d{2}$/;
 
   if (!dateFormatRegEx.test(date)) return 1;
@@ -14,9 +22,11 @@ export function validateDate(date: string) {
 
   if (isNaN(inputDate.getTime())) return 2;
 
-  const currentDate = new Date();
+  if (options.checkLessThanNow) {
+    const currentDate = new Date();
 
-  if (inputDate < currentDate) return 3;
+    if (inputDate < currentDate) return 3;
+  }
 
   return 0;
 }

@@ -1,4 +1,5 @@
 import { type ContractType, type StatusType } from "../types/general";
+import { convertStatus } from "../utils/convertStatus";
 import { type ReactNode, useState } from "react";
 import { usePatchContractMutation } from "../services/queryOptions";
 import { Input } from "../components/Input";
@@ -7,27 +8,28 @@ import { Button } from "../components/Button";
 import { Check, X } from "lucide-react";
 import { validateDate } from "../utils/validateDate";
 
-const CREATED_OPTIONS: Record<Exclude<StatusType, "ISPORUČENO">, string> = {
-  KREIRANO: "Kreirano",
-  NARUČENO: "Naručeno",
+const CREATED_OPTIONS: Record<Exclude<StatusType, "delivered">, string> = {
+  created: convertStatus.param2display("created"),
+  ordered: convertStatus.param2display("ordered"),
 };
 
-const OREDERED_OPTIONS: Record<Exclude<StatusType, "KREIRANO">, string> = {
-  NARUČENO: "Naručeno",
-  ISPORUČENO: "Isporučeno",
+const OREDERED_OPTIONS: Record<Exclude<StatusType, "created">, string> = {
+  ordered: convertStatus.param2display("ordered"),
+  delivered: convertStatus.param2display("delivered"),
 };
 
 const DELIVERED_OPTIONS: Record<
-  Exclude<StatusType, "KREIRANO" | "NARUČENO">,
+  Exclude<StatusType, "created" | "ordered">,
   string
 > = {
-  ISPORUČENO: "Isporučeno",
+  delivered: convertStatus.param2display("delivered"),
 };
 
-export type EditFormProps = { children?: ReactNode } & {
+export type EditFormProps = {
   id: ContractType["id"];
-  deliveryDate: ContractType["rok_isporuke"];
+  deliveryDate: ContractType["deliveryDate"];
   status: ContractType["status"];
+  children?: ReactNode;
 };
 
 export function EditForm({
@@ -48,6 +50,7 @@ export function EditForm({
 
   return (
     <form
+      className="flex flex-col gap-4"
       onSubmit={async (e) => {
         e.preventDefault();
 
@@ -55,25 +58,24 @@ export function EditForm({
 
         setIsSubmitting(true);
 
-        let errorFound = false;
+        let errorFound = false,
+          errorMsg = "";
 
-        switch (validateDate(deliveryDate)) {
-          case 0:
-            break;
-          case 1:
-            setDeliveryDateError("Format datuma mora odgovarati YYYY-MM-DD");
-            break;
-          case 2:
-            setDeliveryDateError("Datum ne postoji");
-            break;
-          case 3:
-            setDeliveryDateError("Datum je manji od trenutnog");
-            break;
-          default:
-            break;
+        if (!deliveryDateValue) {
+          errorMsg = "Polje je obavezno";
+        } else {
+          const validatedDeliveryDate = validateDate(deliveryDateValue);
+
+          if (validatedDeliveryDate === 1) {
+            errorMsg = "Format datuma mora odgovarati YYYY-MM-DD";
+          } else if (validatedDeliveryDate === 2) {
+            errorMsg = "Datum ne postoji";
+          }
         }
 
-        if (deliveryDateError) {
+        if (errorMsg) {
+          setDeliveryDateError(errorMsg);
+
           errorFound = true;
         }
 
@@ -98,55 +100,56 @@ export function EditForm({
 
         setStatusValue(status);
 
-        setDeliveryDateError;
+        setDeliveryDateError("");
       }}
     >
-      <fieldset
-        className="flex flex-col items-center gap-4"
-        disabled={isSubmitting}
-      >
+      <div className="flex flex-col justify-between gap-2 p-2">
         <Input
+          className="ml-auto"
+          type="text"
+          placeholder={new Date().toISOString().split("T")[0]}
+          disabled={isSubmitting || status === "delivered"}
           value={deliveryDateValue}
           onChange={(e) => {
             setDeliveryDateValue(e.target.value);
 
             setDeliveryDateError("");
           }}
-          type="text"
-          placeholder="2024-03-14"
-          required
-          disabled={status === "ISPORUČENO"}
         >
           Rok isporuke
         </Input>
         {deliveryDateError ? (
-          <p className="rounded bg-red-100 px-4 py-2 text-red-500"></p>
+          <p className="animate-fadeIn text-balance rounded-xl bg-red-100 px-4 py-2 text-center text-sm text-red-500">
+            {deliveryDateError}
+          </p>
         ) : null}
+      </div>
+      <div className="flex flex-col gap-2 p-2">
         <Select
+          className="ml-auto"
+          disabled={isSubmitting || status === "delivered"}
           value={statusValue}
           onChange={(e) => setStatusValue(e.target.value as StatusType)}
           options={
-            status === "KREIRANO"
+            status === "created"
               ? CREATED_OPTIONS
-              : status === "NARUČENO"
+              : status === "ordered"
                 ? OREDERED_OPTIONS
                 : DELIVERED_OPTIONS
           }
-          disabled={status === "ISPORUČENO"}
-          required
         >
           Status
         </Select>
-        <div className="flex gap-2">
-          <Button type="submit">
-            <Check />
-          </Button>
-          <Button variant="outline" type="reset">
-            <X />
-          </Button>
-          {children}
-        </div>
-      </fieldset>
+      </div>
+      <div className="flex justify-center gap-2">
+        <Button type="submit" disabled={isSubmitting}>
+          <Check />
+        </Button>
+        <Button variant="ghost" type="reset" disabled={isSubmitting}>
+          <X />
+        </Button>
+        {children}
+      </div>
     </form>
   );
 }

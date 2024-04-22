@@ -2,6 +2,7 @@ import { type ContractType } from "../types/general";
 import { type ReactNode } from "react";
 import { ListItem } from "../components/ListItem";
 import { formatDate } from "../utils/formatDate";
+import { convertStatus } from "../utils/convertStatus";
 
 export type CardContractProps = {
   data: ContractType;
@@ -10,14 +11,14 @@ export type CardContractProps = {
 export function CardContract({ data, children }: CardContractProps) {
   return (
     <ul className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-500">
-      <ListItem label="Kupac">{data.kupac}</ListItem>
-      <ListItem label="Broj ugovora">{data.broj_ugovora}</ListItem>
+      <ListItem label="Kupac">{data.buyer}</ListItem>
+      <ListItem label="Broj ugovora">{data.contractId}</ListItem>
       <ListItem label="Datum akontacije">
-        {formatDate(data.datum_akontacije)}
+        {formatDate(data.advancePaymentDate)}
       </ListItem>
-      <ListItem label="Rok isporuke">{formatDate(data.rok_isporuke)}</ListItem>
+      <ListItem label="Rok isporuke">{formatDate(data.deliveryDate)}</ListItem>
       <ListItem label="Status" variant={data.status}>
-        {data.status}
+        {convertStatus.param2display(data.status)}
       </ListItem>
       {children}
     </ul>

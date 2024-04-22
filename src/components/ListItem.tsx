@@ -31,9 +31,9 @@ export function ListItem({
         <p
           className={twMerge(
             "flex gap-2 text-balance text-right",
-            variant === "KREIRANO" ? "text-green-500" : null,
-            variant === "NARUČENO" ? "text-yellow-500" : null,
-            variant === "ISPORUČENO" ? "text-gray-500" : null,
+            variant === "created" ? "text-green-500" : null,
+            variant === "ordered" ? "text-yellow-500" : null,
+            variant === "delivered" ? "text-gray-500" : null,
           )}
         >
           {children}

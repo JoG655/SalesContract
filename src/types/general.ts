@@ -1,11 +1,13 @@
-export type StatusType = "KREIRANO" | "NARUČENO" | "ISPORUČENO";
+export type StatusApiType = "KREIRANO" | "NARUČENO" | "ISPORUČENO";
+
+export type StatusType = "created" | "ordered" | "delivered";
 
 export type ContractType = {
   id: string;
-  kupac: string;
-  broj_ugovora: string;
-  datum_akontacije: string;
-  rok_isporuke: string;
+  buyer: string;
+  contractId: string;
+  advancePaymentDate: string;
+  deliveryDate: string;
   status: StatusType;
 };
 
@@ -13,8 +15,8 @@ export type ArticleType = {
   id: string;
   items: {
     id: string;
-    naziv: string;
-    dobavljač: string;
+    name: string;
+    supplier: string;
     status: StatusType;
   }[];
 };

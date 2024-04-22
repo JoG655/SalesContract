@@ -2,27 +2,51 @@
   "contracts": [
     {
       "id": "1",
-      "kupac": "Petra Kranjčar",
-      "broj_ugovora": "1/2024",
-      "datum_akontacije": "2024-01-04",
-      "rok_isporuke": "2024-04-20",
-      "status": "KREIRANO"
+      "buyer": "Petra Kranjčar",
+      "contractId": "1/2024",
+      "advancePaymentDate": "2024-01-04",
+      "deliveryDate": "2025-11-31",
+      "status": "ordered"
     },
     {
       "id": "2",
-      "kupac": "Franko Kasun",
-      "broj_ugovora": "2/2024",
-      "datum_akontacije": "2024-03-01",
-      "rok_isporuke": "2024-05-01",
-      "status": "ISPORUČENO"
+      "buyer": "Franko Kasun",
+      "contractId": "2/2024",
+      "advancePaymentDate": "2024-03-01",
+      "deliveryDate": "2024-05-01",
+      "status": "delivered"
     },
     {
       "id": "3",
-      "kupac": "Stjepan Babić",
-      "broj_ugovora": "3/2024",
-      "datum_akontacije": "2024-03-03",
-      "rok_isporuke": "2024-04-15",
-      "status": "NARUČENO"
+      "buyer": "Stjepan Babić",
+      "contractId": "3/2024",
+      "advancePaymentDate": "2024-03-03",
+      "deliveryDate": "2024-04-15",
+      "status": "ordered"
+    },
+    {
+      "id": "4",
+      "buyer": "Stipe Babić",
+      "contractId": "4/2024",
+      "advancePaymentDate": "2024-03-03",
+      "deliveryDate": "2025-11-31",
+      "status": "delivered"
+    },
+    {
+      "id": "5f6716de-9c95-4c0b-9260-05b8917d8b56",
+      "buyer": "Petar Perkov",
+      "contractId": "5/2024",
+      "advancePaymentDate": "2024-04-23",
+      "deliveryDate": "2025-11-31",
+      "status": "delivered"
+    },
+    {
+      "id": "830ad240-4fa9-4fee-a6eb-f3f9bef9bc84",
+      "buyer": "Ivan Petrov",
+      "contractId": "7/2024",
+      "advancePaymentDate": "2024-04-25",
+      "deliveryDate": "2025-11-31",
+      "status": "delivered"
     }
   ],
   "articles": [
@@ -31,27 +55,27 @@
       "items": [
         {
           "id": 1,
-          "naziv": "Perilica posuđa ugradbena Gorenje HHA27200L",
-          "dobavljač": "Links",
-          "status": "KREIRANO"
+          "name": "Perilica posuđa ugradbena Gorenje HHA27200L",
+          "supplier": "Links",
+          "status": "created"
         },
         {
           "id": 2,
-          "naziv": "Napa Gorenje TH60E3X",
-          "dobavljač": "Links",
-          "status": "NARUČENO"
+          "name": "Napa Gorenje TH60E3X",
+          "supplier": "Links",
+          "status": "ordered"
         },
         {
           "id": 3,
-          "naziv": "Ploča ugradbena Gorenje HCE691BSC",
-          "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČENO"
+          "name": "Ploča ugradbena Gorenje HCE691BSC",
+          "supplier": "Bijela tehnika",
+          "status": "delivered"
         },
         {
           "id": 4,
-          "naziv": "Perilica posuđa ugradbena Gorenje HHA27200L",
-          "dobavljač": "Links",
-          "status": "NARUČENO"
+          "name": "Perilica posuđa ugradbena Gorenje HHA27200L",
+          "supplier": "Links",
+          "status": "ordered"
         }
       ]
     },
@@ -60,21 +84,21 @@
       "items": [
         {
           "id": 1,
-          "naziv": "Perilica posuđa ugradbena Electrolux EEA27200L",
-          "dobavljač": "Sancta Domenica",
-          "status": "KREIRANO"
+          "name": "Perilica posuđa ugradbena Electrolux EEA27200L",
+          "supplier": "Sancta Domenica",
+          "status": "created"
         },
         {
           "id": 2,
-          "naziv": "Napa ugradbena Gorenje TH60E3X",
-          "dobavljač": "Sancta Domenica",
-          "status": "NARUČENO"
+          "name": "Napa ugradbena Gorenje TH60E3X",
+          "supplier": "Sancta Domenica",
+          "status": "ordered"
         },
         {
           "id": 3,
-          "naziv": "Ploča ugradbena kombinirana Gorenje GCE691BSC",
-          "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČENO"
+          "name": "Ploča ugradbena kombinirana Gorenje GCE691BSC",
+          "supplier": "Bijela tehnika",
+          "status": "delivered"
         }
       ]
     },
@@ -83,21 +107,78 @@
       "items": [
         {
           "id": 1,
-          "naziv": "Perilica posuđa ugradbena Gorenje HHA27200L",
-          "dobavljač": "Links",
-          "status": "NARUČENO"
+          "name": "Perilica posuđa ugradbena Gorenje HHA27200L",
+          "supplier": "Links",
+          "status": "ordered"
         },
         {
           "id": 2,
-          "naziv": "Napa Gorenje TH60E3X",
-          "dobavljač": "Links",
-          "status": "NARUČENO"
+          "name": "Napa Gorenje TH60E3X",
+          "supplier": "Links",
+          "status": "ordered"
         },
         {
           "id": 3,
-          "naziv": "Ploča ugradbena Gorenje HCE691BSC",
-          "dobavljač": "Bijela tehnika",
-          "status": "ISPORUČENO"
+          "name": "Ploča ugradbena Gorenje HCE691BSC",
+          "supplier": "Bijela tehnika",
+          "status": "delivered"
+        }
+      ]
+    },
+    {
+      "id": "4-2024",
+      "items": [
+        {
+          "id": 1,
+          "name": "Ploča ugradbena kombinirana Gorenje GCE691BSC",
+          "supplier": "Bijela tehnika",
+          "status": "delivered"
+        },
+        {
+          "id": 3,
+          "name": "Ploča ugradbena Gorenje HCE691BSC",
+          "supplier": "Bijela tehnika",
+          "status": "delivered"
+        },
+        {
+          "id": 2,
+          "name": "Napa Gorenje TH60E3X",
+          "supplier": "Links",
+          "status": "ordered"
+        }
+      ]
+    },
+    {
+      "id": "5-2024",
+      "items": [
+        {
+          "id": "1",
+          "name": "Perilica Gorenje",
+          "supplier": "Santa Domenica",
+          "status": "created"
+        },
+        {
+          "id": "2",
+          "name": "Sušilica Gorenje",
+          "supplier": "Links",
+          "status": "created"
+        }
+      ]
+    },
+    {
+      "id": "7-2024",
+      "items": [
+        {
+          "id": "1",
+          "name": "Perilica Gorenje",
+          "supplier": "Santa Domenica",
+          "status": "created"
+        },
+        {
+          "id": "2",
+          "name": "Sušilica Gorenje",
+          "supplier": "Links",
+          "status": "created"
         }
       ]
     }

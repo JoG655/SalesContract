@@ -3,6 +3,7 @@ import { type ContractsSearch } from "../routes/index";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { ListItem } from "../components/ListItem";
 import { formatDate } from "../utils/formatDate";
+import { convertStatus } from "../utils/convertStatus";
 import { Button } from "../components/Button";
 import { Edit, List, Trash } from "lucide-react";
 import { NavLink } from "../components/NavLink";
@@ -26,7 +27,6 @@ export function SearchResults({
   const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
-    console.log("Effect ran");
     if (!buyer && active === "notSelected") {
       setFilteredData([...data]);
 
@@ -35,16 +35,16 @@ export function SearchResults({
 
     const newFilteredData = data.filter((contract) => {
       const buyerMatches = buyer
-        ? contract.kupac.toLowerCase().includes(buyer.toLowerCase())
+        ? contract.buyer.toLowerCase().includes(buyer.toLowerCase())
         : true;
 
       const activeMatches =
         active === "notSelected"
           ? true
           : active === "active"
-            ? contract.status === "KREIRANO" || contract.status === "NARUČENO"
+            ? contract.status === "created" || contract.status === "ordered"
             : active === "inactive"
-              ? contract.status === "ISPORUČENO"
+              ? contract.status === "delivered"
               : false;
 
       return buyerMatches && activeMatches;
@@ -60,16 +60,16 @@ export function SearchResults({
           key={contract.id}
           className="flex flex-col gap-2 overflow-hidden rounded-md border-2 border-primary-500"
         >
-          <ListItem label="Kupac">{contract.kupac}</ListItem>
-          <ListItem label="Broj ugovora">{contract.broj_ugovora}</ListItem>
+          <ListItem label="Kupac">{contract.buyer}</ListItem>
+          <ListItem label="Broj ugovora">{contract.contractId}</ListItem>
           <ListItem label="Datum akontacije">
-            {formatDate(contract.datum_akontacije)}
+            {formatDate(contract.advancePaymentDate)}
           </ListItem>
           <ListItem label="Rok isporuke">
-            {formatDate(contract.rok_isporuke)}
+            {formatDate(contract.deliveryDate)}
           </ListItem>
           <ListItem label="Status" variant={contract.status}>
-            {contract.status}
+            {convertStatus.param2display(contract.status)}
           </ListItem>
           <ListItem label="Akcije" container>
             <Button
@@ -91,7 +91,7 @@ export function SearchResults({
                 return {
                   ...old,
                   contractId: convertContractId.display2param(
-                    contract.broj_ugovora,
+                    contract.contractId,
                   ),
                 };
               }}
