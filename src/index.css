@@ -19,6 +19,20 @@
   @apply rounded-full bg-scrollbar;
 }
 
+body {
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+main {
+  flex-grow: 1;
+}
+
 .scrollbar-hidden {
   scrollbar-color: transparent transparent;
 }
