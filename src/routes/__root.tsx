@@ -19,10 +19,8 @@ function Root() {
         </NavLink>
         <NavLink to="/bonus">Bonus</NavLink>
       </nav>
-      <main>
-        <div className="mx-auto flex max-w-7xl flex-grow animate-fadeIn flex-col items-center scroll-smooth px-1 py-4 md:px-4 md:py-6">
-          <Outlet />
-        </div>
+      <main className="mx-auto flex max-w-7xl flex-grow animate-fadeIn flex-col items-center scroll-smooth px-1 py-4 md:px-4 md:py-6">
+        <Outlet />
       </main>
       <ReactQueryDevtools buttonPosition="bottom-left" />
       <TanStackRouterDevtools position="bottom-right" />
